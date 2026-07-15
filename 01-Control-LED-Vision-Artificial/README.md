@@ -8,7 +8,7 @@ Este sistema permite controlar 5 LEDs físicos conectados a un Arduino utilizand
 
 ---
 
-## 🧠 Tecnologías y Conceptos Clave
+## Tecnologías y Conceptos Clave
 
 En el mundo de la programación usamos "librerías", paquetes de código que resuelven problemas complejos. Para este proyecto, nos apoyamos en cuatro grandes pilares tecnológicos:
 
