@@ -15,7 +15,7 @@ Proveer ejemplos prácticos, replicables y educativos para estudiantes y visitan
 
 ---
 
-## 📦 Proyectos Disponibles
+## Proyectos Disponibles
 
 Actualmente, el repositorio cuenta con los siguientes proyectos funcionales. Navega por las diferentes carpetas para descubrir cada uno:
 
@@ -40,7 +40,7 @@ Cada proyecto es 100% independiente y mantiene una estructura estandarizada para
 
 ---
 
-## 📥 Cómo usar este repositorio
+## Cómo usar este repositorio
 
 1. Haz clic en el botón verde **"Code"** en la parte superior derecha de esta página y selecciona **"Download ZIP"** (o clona el repositorio usando Git si prefieres la terminal).
 2. Descomprime la carpeta en tu computadora.
