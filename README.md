@@ -13,7 +13,6 @@ Proveer ejemplos prácticos, replicables y educativos para estudiantes y visitan
 * **Sensores y Actuadores**
 * **Desarrollo Web e Inteligencia Artificial**
 
----
 
 ## Proyectos Disponibles
 
@@ -27,6 +26,7 @@ Actualmente, el repositorio cuenta con los siguientes proyectos funcionales. Nav
 | **[4. Radar Ultrasónico Interactivo](./04-Radar_Ultrasonico)** | Arduino, Sensor HC-SR04, Servo SG90, Processing | **Percepción Robótica:** Sensores de distancia y renderizado de interfaces gráficas 2D. |
 | **[5. Micro:bit Machine Learning](./05-Microbit_MachineLearning)** | Teachable Machine, MakeCode, Micro:bit, BLE | **Inteligencia Artificial:** Visión computacional conectada a la toma de decisiones físicas. |
 | **[6. Arduino-LCD-Minigames](./06-Arduino-LCD-Minigames)** | Arduino C++, LCD 1602 Keypad Shield | **Programación de Videojuegos:** Lógica pura, física 2D, uso de memoria y superación de límites de hardware retro. |
+| **[7. Bóveda Maker Pro: Caja Fuerte Inteligente](./07-Bodega-Maker-Pro)** | Arduino, Sensor HC-SR04, Servo SG90, LCD 1602 Keypad Shield, Potenciómetro | **Sistemas Embebidos y Electrónica:** Integración de sensores, actuadores, máquinas de estados, lectura analógica y diseño de sistemas de seguridad física programables. |
 
 ---
 
