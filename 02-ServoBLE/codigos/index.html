@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>ServoBLE - Control IoT</title>
+
+<style>
+body{
+    margin:0;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #1f2a38, #0f1720);
+    color:white;
+    text-align:center;
+}
+
+/* Contenedor */
+.container{
+    margin-top:60px;
+}
+
+/* Título */
+h1{
+    font-size:34px;
+    letter-spacing:1px;
+}
+
+/* Círculo de estado */
+.status{
+    margin:30px auto;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    font-weight:bold;
+    background:#222;
+    border:3px solid #444;
+    transition:0.4s;
+}
+
+/* Estados */
+.connected{
+    background:#00c853;
+    box-shadow:0 0 25px #00ff88;
+}
+
+.detected{
+    background:#ff1744;
+    box-shadow:0 0 40px #ff1744;
+    animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+}
+
+/* Botones */
+button{
+    padding:15px 35px;
+    margin:10px;
+    border:none;
+    border-radius:30px;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+    font-weight:bold;
+}
+
+/* Botón conectar */
+.connect-btn{
+    background:linear-gradient(45deg,#2979ff,#00c6ff);
+    color:white;
+}
+
+/* Abrir */
+.open-btn{
+    background:linear-gradient(45deg,#00c853,#64dd17);
+}
+
+/* Cerrar */
+.close-btn{
+    background:linear-gradient(45deg,#d50000,#ff1744);
+}
+
+/* Hover */
+button:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 15px rgba(255,255,255,0.3);
+}
+
+/* Texto estado */
+.info{
+    margin-top:15px;
+    font-size:14px;
+    opacity:0.7;
+}
+
+/* Footer */
+footer{
+    margin-top:60px;
+    opacity:0.5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🔵 ServoBLE Control</h1>
+    <p class="info">Sistema IoT con IdeaBoard + BLE</p>
+
+    <div id="statusCircle" class="status">
+        Desconectado
+    </div>
+
+    <button class="connect-btn" onclick="conectar()">Conectar BLE</button>
+    <br>
+    <button class="open-btn" onclick="abrir()">Abrir Portón</button>
+    <button class="close-btn" onclick="cerrar()">Cerrar Portón</button>
+
+    <p class="info" id="log">Esperando conexión...</p>
+</div>
+
+<footer>
+    © 2025 ServoBLE
+</footer>
+
+<script>
+let device;
+let characteristic;
+let statusCircle = document.getElementById("statusCircle");
+let log = document.getElementById("log");
+
+// BUFFER BLE
+let buffer = "";
+
+async function conectar(){
+    try{
+        device = await navigator.bluetooth.requestDevice({
+            filters:[{name:"Porton_Sumobot"}],
+            optionalServices:['6e400001-b5a3-f393-e0a9-e50e24dcca9e']
+        });
+
+        const server = await device.gatt.connect();
+        const service = await server.getPrimaryService('6e400001-b5a3-f393-e0a9-e50e24dcca9e');
+
+        const tx = await service.getCharacteristic('6e400003-b5a3-f393-e0a9-e50e24dcca9e');
+        await tx.startNotifications();
+        tx.addEventListener('characteristicvaluechanged', recibirDatos);
+
+        characteristic = await service.getCharacteristic('6e400002-b5a3-f393-e0a9-e50e24dcca9e');
+
+        statusCircle.innerText="Conectado";
+        statusCircle.classList.add("connected");
+        log.innerText="BLE conectado correctamente";
+
+    }catch(error){
+        alert("Error: "+error);
+    }
+}
+
+function recibirDatos(event){
+    let chunk = new TextDecoder().decode(event.target.value);
+    buffer += chunk;
+
+    if(buffer.includes("\n")){
+        let mensajes = buffer.split("\n");
+
+        for(let m of mensajes){
+            console.log("Mensaje:", m);
+
+            if(m.includes("OBJETO_DETECTADO")){
+                statusCircle.innerText="🚨 OBJETO DETECTADO";
+                statusCircle.classList.remove("connected");
+                statusCircle.classList.add("detected");
+                log.innerText="Sensor ultrasónico activo";
+            }
+
+            if(m.includes("AREA_LIBRE")){
+                statusCircle.innerText="Área Libre";
+                statusCircle.classList.remove("detected");
+                statusCircle.classList.add("connected");
+                log.innerText="Sin objetos detectados";
+            }
+
+            if(m.includes("PORTON_ABIERTO")){
+                log.innerText="Portón abierto";
+            }
+
+            if(m.includes("PORTON_CERRADO")){
+                log.innerText="Portón cerrado";
+            }
+        }
+
+        buffer = "";
+    }
+}
+
+async function abrir(){
+    if(characteristic){
+        await characteristic.writeValue(new TextEncoder().encode("ABRIR\n"));
+    }
+}
+
+async function cerrar(){
+    if(characteristic){
+        await characteristic.writeValue(new TextEncoder().encode("CERRAR\n"));
+    }
+}
+</script>
+
+</body>
+</html>
