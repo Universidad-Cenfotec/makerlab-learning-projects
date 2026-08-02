@@ -40,8 +40,7 @@ Para controlar el robot, no necesitas descargar nada. La interfaz está alojada 
    🔗 **[Interfaz Web Cenfobot Control](https://universidad-cenfotec.github.io/makerlab-learning-projects/)**
 
 2. **Desde tu teléfono móvil:** Escanea este código QR con tu cámara para abrir el control al instante:
-
-   ![Sumobot](https://github.com/Universidad-Cenfotec/makerlab-learning-projects/blob/main/docs/imagenes/MakerLab_QR.svg) 
+  ![Sumobot](https://github.com/Universidad-Cenfotec/makerlab-learning-projects/blob/main/docs/imagenes/MakerLab_QR.svg) 
    
 
 
