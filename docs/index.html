@@ -127,7 +127,7 @@
             font-size: 0.95rem;
         }
 
-        /* SECCIÓN HERRAMIENTAS (INFO) */
+        /* SECCIÓN HERRAMIENTAS */
         .tools-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -153,7 +153,7 @@
         .btn-link.mc-link { background: #e6f6f4; color: #007a6c; }
         .btn-link.mc-link:hover { background: #ccece8; }
 
-        /* SECCIÓN INTERACTIVA (APP) */
+        /* SECCIÓN INTERACTIVA */
         .app-grid {
             display: grid;
             grid-template-columns: 1fr;
@@ -327,7 +327,7 @@
 
     <div class="container">
         
-        <!-- SECCIÓN INFORMATIVA (NUEVA) -->
+        <!-- SECCIÓN INFORMATIVA -->
         <div class="tools-grid">
             <div class="card tool-card tm">
                 <h2>🧠 Teachable Machine</h2>
@@ -357,7 +357,7 @@
             </div>
         </div>
 
-        <!-- SECCIÓN PRINCIPAL (GRID 2 COLUMNAS) -->
+        <!-- SECCIÓN PRINCIPAL (GRID) -->
         <div class="app-grid">
             <!-- VISIÓN ARTIFICIAL -->
             <div class="card vision-card">
@@ -424,11 +424,12 @@
         // Variables globales Bluetooth
         let bleDevice = null;
         let bleServer = null;
-        let txCharacteristic = null;
+        let writeCharacteristic = null; // Renombrado para claridad
         
-        // UUIDs estándar de Nordic UART (Usados por Micro:bit)
+        // UUIDs de Nordic UART (Corregidos)
         const UART_SERVICE_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
-        const UART_TX_UUID      = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"; 
+        // 0003 es el RX del Micro:bit (Donde la web debe escribir)
+        const UART_RX_UUID      = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"; 
         
         // Control de envío
         let lastSentClass = "";
@@ -543,9 +544,9 @@
             document.getElementById("prob-ring").style.background = 
                 `conic-gradient(var(--success) ${probPercentage}%, #e5e7eb ${probPercentage}%)`;
 
-            // Enviar dato por Bluetooth si cumple las reglas
+            // Enviar dato por Bluetooth si cumple las reglas (85% de seguridad)
             const now = Date.now();
-            if (txCharacteristic && highest.probability > 0.85) {
+            if (writeCharacteristic && highest.probability > 0.85) {
                 if (highest.className !== lastSentClass || (now - lastSendTime) > 2000) {
                     sendDataToMicrobit(highest.className);
                     lastSentClass = highest.className;
@@ -555,7 +556,7 @@
         }
 
         // ==========================================
-        // 2. WEB BLUETOOTH (UART MICRO:BIT) CORREGIDO
+        // 2. WEB BLUETOOTH (UART MICRO:BIT)
         // ==========================================
         async function connectBluetooth() {
             const statusBle = document.getElementById("bluetoothStatus");
@@ -570,7 +571,6 @@
                 statusBle.innerHTML = "🟡 Buscando dispositivos...";
                 logToTerminal("Solicitando permisos de Bluetooth...");
 
-                // SOLUCIÓN APLICADA: acceptAllDevices = true + optionalServices
                 bleDevice = await navigator.bluetooth.requestDevice({
                     acceptAllDevices: true,
                     optionalServices: [UART_SERVICE_UUID]
@@ -586,8 +586,9 @@
                 logToTerminal("Obteniendo servicio UART...");
                 const service = await bleServer.getPrimaryService(UART_SERVICE_UUID);
 
-                logToTerminal("Abriendo canal de datos...");
-                txCharacteristic = await service.getCharacteristic(UART_TX_UUID);
+                // IMPORTANTE: Aquí ahora llamamos al canal 0003, que es el de ESCRITURA
+                logToTerminal("Abriendo canal de datos (RX)...");
+                writeCharacteristic = await service.getCharacteristic(UART_RX_UUID);
 
                 // Éxito
                 statusBle.className = "status-badge connected";
@@ -612,12 +613,18 @@
         }
 
         async function sendDataToMicrobit(text) {
-            if (!txCharacteristic) return;
+            if (!writeCharacteristic) return;
             try {
                 const encoder = new TextEncoder();
-                // Añadimos salto de línea, indispensable para el bloque "on data received" de MakeCode
                 const data = encoder.encode(text + "\n");
-                await txCharacteristic.writeValue(data);
+                
+                // Intenta escribir sin respuesta primero (preferido por Micro:bit)
+                if (writeCharacteristic.properties.writeWithoutResponse) {
+                    await writeCharacteristic.writeValueWithoutResponse(data);
+                } else {
+                    await writeCharacteristic.writeValue(data);
+                }
+                
                 logToTerminal(`> Enviado: <strong>${text}</strong>`);
             } catch (error) {
                 logToTerminal(`<span style="color:var(--danger)">Error de envío: ${error.message}</span>`);
@@ -641,7 +648,7 @@
             document.getElementById("btnDisconnect").style.display = "none";
             
             bleServer = null;
-            txCharacteristic = null;
+            writeCharacteristic = null;
         }
     </script>
 </body>
