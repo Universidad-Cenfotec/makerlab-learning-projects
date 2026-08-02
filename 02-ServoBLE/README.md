@@ -89,7 +89,7 @@ Este proyecto está dividido en dos partes: el código que vive en la placa (Har
 
 2. *(Opcional)* **Código QR:** Simplemente escanea este código QR para abrir la aplicación de control al instante desde tu teléfono:
    
-   ![ServoBLE](imagenes/ServoBLE.svg) 
+   ![ServoBLE](https://github.com/Universidad-Cenfotec/makerlab-learning-projects/blob/main/docs/imagenes/MakerLab_QR.svg) 
    *(Nota: Asegúrate de actualizar la imagen SVG del código QR si generaste uno nuevo para la nueva dirección web).*
 
 ---
