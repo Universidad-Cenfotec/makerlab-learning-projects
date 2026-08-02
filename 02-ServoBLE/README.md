@@ -58,12 +58,23 @@ Como aprendimos en proyectos anteriores del MakerLab, los motores consumen mucha
 
 ## 🖼️ Galería de Componentes
 
-Para replicar este proyecto y armar tu propio portón, guíate con estas imágenes de referencia:
+Para replicar este proyecto y armar tu propia barrera, guíate con estas imágenes de referencia:
 
-* **Montaje del Portón Físico:** `imagenes/porton_terminado.jpg`
-* **Circuito IdeaBoard y Baterías:** `imagenes/circuito_ideaboard.jpg`
-* **Interfaz Web Funcionando:** `imagenes/interfaz_web.jpg`
 
+**IdeaBoard**
+![Ideaboard](imagenes/IdeaBoard.jpeg)
+
+**Servomotor**
+![Servomotor](imagenes/Servomotor.jpeg)
+
+**Ultrasonico**
+![Ultrasonico](imagenes/Servomotor.jpeg)
+
+**Jumpers**
+![Jumpers](imagenes/Jumpers.jpeg)
+
+**Circuito Final**
+![Circuito Final](imagenes/CircuitoFinal.jpeg)
 ---
 
 ## 💻 Configuración del Software
