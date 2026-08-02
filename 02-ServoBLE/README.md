@@ -90,7 +90,7 @@ Este proyecto está dividido en dos partes: el código que vive en la placa (Har
 
 2. **Desde tu teléfono móvil:** Simplemente escanea este código QR para abrir la aplicación de control al instante:
    
-   ![QR ServoBLE](imagenes/qr_ServoBLE.svg)
+   ![qr ServoBLE](imagenes/qr_ServoBLE.svg)
 
 ---
 
