@@ -16,9 +16,9 @@ Material recomendado
 
 ---
 
-### Puntero del Portón
+### Barrera
 
-Brazo que transmite el movimiento del servomotor al portón.
+El servomotor controla el brazo de una barrera de acceso, simulando un sistema utilizado en estacionamientos, condominios y puntos de control vehicular.
 
 Material recomendado
 
