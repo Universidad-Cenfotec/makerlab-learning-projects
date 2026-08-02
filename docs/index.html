@@ -88,7 +88,7 @@
         .container {
             max-width: 1200px;
             margin: -30px auto 40px auto;
-            padding: 0 20px;
+            padding: 0 15px;
             position: relative;
             z-index: 2;
             flex-grow: 1;
@@ -130,7 +130,7 @@
         /* SECCIÓN HERRAMIENTAS */
         .tools-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
         }
 
@@ -172,6 +172,7 @@
 
         input {
             flex-grow: 1;
+            width: 100%;
             padding: 14px 20px;
             border-radius: 12px;
             border: 2px solid #e5e7eb;
@@ -201,11 +202,7 @@
             gap: 8px;
         }
 
-        button:hover {
-            background: var(--primary-hover);
-            transform: scale(1.02);
-        }
-
+        button:hover { background: var(--primary-hover); transform: scale(1.02); }
         button:active { transform: scale(0.98); }
         button:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
 
@@ -223,6 +220,7 @@
             margin: 20px 0;
             position: relative;
             overflow: hidden;
+            width: 100%;
         }
 
         canvas {
@@ -260,7 +258,7 @@
         }
 
         .result-info h3 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
-        #pred-class { font-size: 2rem; font-weight: 700; color: var(--primary); }
+        #pred-class { font-size: 2rem; font-weight: 700; color: var(--primary); word-break: break-word; }
         
         .prob-circle {
             width: 80px; height: 80px;
@@ -268,6 +266,7 @@
             background: conic-gradient(var(--success) 0%, #e5e7eb 0%);
             display: flex; justify-content: center; align-items: center;
             position: relative;
+            flex-shrink: 0;
         }
         .prob-circle::after {
             content: ''; position: absolute;
@@ -289,6 +288,7 @@
             justify-content: center;
             margin-bottom: 20px;
             transition: all 0.3s;
+            text-align: center;
         }
 
         .status-badge.disconnected { background: var(--danger-light); color: var(--danger); }
@@ -305,16 +305,56 @@
             height: 120px;
             overflow-y: auto;
             margin-top: 15px;
+            word-wrap: break-word;
         }
 
         /* FOOTER */
         footer {
             text-align: center;
-            padding: 30px;
+            padding: 30px 15px;
             color: var(--text-muted);
             background: white;
             border-top: 1px solid #e5e7eb;
             margin-top: auto;
+        }
+
+        /* ==========================================
+           MODIFICACIONES PARA MÓVILES (MEDIA QUERIES)
+           ========================================== */
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 15px;
+            }
+            header h1 {
+                font-size: 2rem;
+            }
+            header p {
+                font-size: 1rem;
+            }
+            .container {
+                margin-top: -15px;
+                gap: 20px;
+            }
+            .card {
+                padding: 20px;
+            }
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            .input-group {
+                flex-direction: column; /* Apila el input y el botón en celular */
+            }
+            .input-group button {
+                width: 100%;
+            }
+            .result-box {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            .result-info h3 {
+                margin-bottom: 10px;
+            }
         }
     </style>
 </head>
@@ -331,15 +371,13 @@
         <div class="tools-grid">
             <div class="card tool-card tm">
                 <h2>🧠 Teachable Machine</h2>
-                <p>Es una herramienta de Google que te permite crear modelos de Inteligencia Artificial sin escribir código. Usas tu cámara para enseñar a la IA a reconocer objetos, posturas o sonidos.</p>
-                <p style="margin-top:10px;"><strong>¿Cómo se usa aquí?</strong> Entrena tu modelo, haz clic en "Exportar", sube el modelo a la nube y pega el enlace generado en el recuadro de abajo.</p>
+                <p>Crea modelos de Inteligencia Artificial sin escribir código. Usa tu cámara para enseñar a la IA a reconocer objetos, posturas o sonidos.</p>
                 <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="btn-link tm-link">Abrir Teachable Machine ↗</a>
             </div>
 
             <div class="card tool-card mc">
                 <h2>⚙️ Micro:bit & MakeCode</h2>
-                <p>MakeCode es la plataforma de Microsoft para programar la tarjeta Micro:bit usando bloques lógicos. Ideal para crear proyectos de robótica e IoT.</p>
-                <p style="margin-top:10px;"><strong>¿Cómo se usa aquí?</strong> Programa tu Micro:bit con el bloque <code>bluetooth start uart service</code> y <code>on data received</code>. Esta web enviará la predicción de la IA a tu tarjeta vía Bluetooth.</p>
+                <p>Programa tu Micro:bit con el bloque <code>bluetooth start uart service</code> y <code>on data received</code>. Esta web enviará la predicción vía Bluetooth.</p>
                 <a href="https://makecode.microbit.org/" target="_blank" class="btn-link mc-link">Abrir MakeCode ↗</a>
             </div>
         </div>
@@ -347,9 +385,9 @@
         <!-- SECCIÓN CARGA DE MODELO -->
         <div class="card" style="border-top-color: var(--secondary);">
             <h2>1️⃣ Configurar Inteligencia Artificial</h2>
-            <p>Pega aquí el enlace de tu modelo de Teachable Machine (ej: <code>https://teachablemachine.withgoogle.com/models/xxxx/</code>)</p>
+            <p>Pega aquí el enlace de tu modelo de Teachable Machine</p>
             <div class="input-group">
-                <input id="modelURL" type="url" placeholder="Pega el enlace aquí..." />
+                <input id="modelURL" type="url" placeholder="Ej: https://teachablemachine.withgoogle.com/models/xxxx/" />
                 <button id="btnLoadModel" onclick="loadModel()">
                     <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
                     Cargar Modelo
@@ -365,7 +403,7 @@
                 <p>Apunta tu cámara a los objetos que entrenaste.</p>
                 
                 <div id="camera-container">
-                    <span id="camera-msg" style="color: #6b7280; z-index: 2;">Carga un modelo para encender la cámara</span>
+                    <span id="camera-msg" style="color: #6b7280; z-index: 2; text-align: center; padding: 0 10px;">Carga un modelo para encender la cámara</span>
                     <div id="scanner" class="scanner-line"></div>
                 </div>
 
@@ -382,8 +420,8 @@
 
             <!-- BLUETOOTH -->
             <div class="card bluetooth-card">
-                <h2>3️⃣ Conexión Hardware (Bluetooth)</h2>
-                <p>Conecta tu Micro:bit. Cuando la IA esté muy segura (más de 85%), enviará el nombre del objeto detectado a tu tarjeta.</p>
+                <h2>3️⃣ Conexión Hardware</h2>
+                <p>Cuando la IA esté muy segura (más de 85%), enviará el nombre del objeto a tu tarjeta vía Bluetooth.</p>
                 
                 <div style="margin-top: 25px;">
                     <div id="bluetoothStatus" class="status-badge disconnected">
@@ -417,35 +455,26 @@
     </footer>
 
     <script>
-        // Variables globales IA
         let model, webcam, maxPredictions;
         let isLooping = false;
         
-        // Variables globales Bluetooth
         let bleDevice = null;
         let bleServer = null;
-        let writeCharacteristic = null; // Renombrado para claridad
+        let writeCharacteristic = null;
         
-        // UUIDs de Nordic UART (Corregidos)
         const UART_SERVICE_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
-        // 0003 es el RX del Micro:bit (Donde la web debe escribir)
         const UART_RX_UUID      = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"; 
         
-        // Control de envío
         let lastSentClass = "";
         let lastSendTime = 0;
 
-        // Función para escribir en la terminal interactiva
         function logToTerminal(msg) {
             const term = document.getElementById("terminal");
             const time = new Date().toLocaleTimeString();
             term.innerHTML += `<br><span style="color: #6b7280;">[${time}]</span> ${msg}`;
-            term.scrollTop = term.scrollHeight; // Auto-scroll
+            term.scrollTop = term.scrollHeight; 
         }
 
-        // ==========================================
-        // 1. CARGA DE MODELO Y CÁMARA
-        // ==========================================
         async function loadModel() {
             let url = document.getElementById("modelURL").value.trim();
             const btn = document.getElementById("btnLoadModel");
@@ -454,7 +483,6 @@
                 alert("Por favor, ingresa la URL de tu modelo de Teachable Machine.");
                 return;
             }
-
             if (!url.endsWith("/")) url += "/";
 
             try {
@@ -496,15 +524,18 @@
             }
 
             msg.style.display = "none";
+            
+            // Para celulares es mejor usar la cámara trasera por defecto si es posible, 
+            // pero tmImage WebCam por defecto usa la frontal. Funciona bien para pruebas.
             const flip = true; 
             webcam = new tmImage.Webcam(300, 300, flip);
             
             try {
-                await webcam.setup(); 
+                await webcam.setup({ facingMode: "environment" }); // Intenta usar cámara trasera en celulares
                 await webcam.play();
                 
                 cameraContainer.appendChild(webcam.canvas);
-                scanner.style.display = "block"; // Activa animación de escáner
+                scanner.style.display = "block";
                 
                 if (!isLooping) {
                     isLooping = true;
@@ -513,7 +544,7 @@
             } catch (error) {
                 console.error(error);
                 msg.style.display = "block";
-                msg.innerText = "❌ Permiso de cámara denegado";
+                msg.innerText = "❌ Permiso de cámara denegado o no disponible.";
             }
         }
 
@@ -536,15 +567,11 @@
 
             const probPercentage = (highest.probability * 100).toFixed(0);
 
-            // Actualizar UI
             document.getElementById("pred-class").innerText = highest.className;
             document.getElementById("pred-prob").innerText = probPercentage + "%";
-            
-            // Actualizar anillo de probabilidad
             document.getElementById("prob-ring").style.background = 
                 `conic-gradient(var(--success) ${probPercentage}%, #e5e7eb ${probPercentage}%)`;
 
-            // Enviar dato por Bluetooth si cumple las reglas (85% de seguridad)
             const now = Date.now();
             if (writeCharacteristic && highest.probability > 0.85) {
                 if (highest.className !== lastSentClass || (now - lastSendTime) > 2000) {
@@ -555,14 +582,11 @@
             }
         }
 
-        // ==========================================
-        // 2. WEB BLUETOOTH (UART MICRO:BIT)
-        // ==========================================
         async function connectBluetooth() {
             const statusBle = document.getElementById("bluetoothStatus");
             
             if (!navigator.bluetooth) {
-                alert("Tu navegador no soporta Web Bluetooth. Usa Chrome o Edge.");
+                alert("Tu navegador no soporta Web Bluetooth. Usa Google Chrome para Android/PC.");
                 return;
             }
 
@@ -586,11 +610,9 @@
                 logToTerminal("Obteniendo servicio UART...");
                 const service = await bleServer.getPrimaryService(UART_SERVICE_UUID);
 
-                // IMPORTANTE: Aquí ahora llamamos al canal 0003, que es el de ESCRITURA
                 logToTerminal("Abriendo canal de datos (RX)...");
                 writeCharacteristic = await service.getCharacteristic(UART_RX_UUID);
 
-                // Éxito
                 statusBle.className = "status-badge connected";
                 statusBle.innerHTML = `🟢 Conectado: ${bleDevice.name || "Micro:bit"}`;
                 logToTerminal('<span style="color:var(--success)">✅ Conexión establecida lista para enviar datos.</span>');
@@ -618,7 +640,6 @@
                 const encoder = new TextEncoder();
                 const data = encoder.encode(text + "\n");
                 
-                // Intenta escribir sin respuesta primero (preferido por Micro:bit)
                 if (writeCharacteristic.properties.writeWithoutResponse) {
                     await writeCharacteristic.writeValueWithoutResponse(data);
                 } else {
