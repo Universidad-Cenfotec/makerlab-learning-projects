@@ -61,17 +61,14 @@ Como aprendimos en proyectos anteriores del MakerLab, los motores consumen mucha
 Para replicar este proyecto y armar tu propia barrera, guíate con estas imágenes de referencia:
 
 
-**IdeaBoard**
+**IdeaBoard y Caja de baterias**
 ![Ideaboard_CajaBateias](imagenes/IdeaBoard_CajaBateias.jpeg)
 
 **Servomotor**
 ![Servomotor](imagenes/Servomotor.jpeg)
 
-**Ultrasonico**
-![Ultrasonico](imagenes/Servomotor.jpeg)
-
-**Jumpers**
-![Jumpers](imagenes/Jumpers.jpeg)
+**Ultrasonico y jumpers**
+![Ultrasonico](imagenes/Ultrasonico_Jumpers.jpeg)
 
 **Circuito Final**
 ![CircuitoFinal](imagenes/CircuitoFinal.jpeg)
