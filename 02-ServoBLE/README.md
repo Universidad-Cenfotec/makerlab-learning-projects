@@ -62,7 +62,7 @@ Para replicar este proyecto y armar tu propia barrera, guíate con estas imágen
 
 
 **IdeaBoard**
-![Ideaboard](imagenes/IdeaBoard.jpeg)
+![Ideaboard_CajaBateias](imagenes/IdeaBoard_CajaBateias.jpeg)
 
 **Servomotor**
 ![Servomotor](imagenes/Servomotor.jpeg)
@@ -72,9 +72,6 @@ Para replicar este proyecto y armar tu propia barrera, guíate con estas imágen
 
 **Jumpers**
 ![Jumpers](imagenes/Jumpers.jpeg)
-
-**CajaBaterias**
-![CajaBaterias](imagenes/CajaBaterias.jpeg)
 
 **Circuito Final**
 ![CircuitoFinal](imagenes/CircuitoFinal.jpeg)
