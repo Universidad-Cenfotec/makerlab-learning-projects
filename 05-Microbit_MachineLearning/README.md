@@ -5,9 +5,9 @@ MakerLab - Universidad Cenfotec. Este proyecto está diseñado para introducir a
 El objetivo general es demostrar cómo una computadora puede "aprender a ver" el mundo real y tomar decisiones que hagan reaccionar a un microcontrolador al instante. A través de este flujo, podemos lograr que un sistema clasifique gestos, reconozca objetos o controle accesos de seguridad, todo mediante la visión de una cámara web.
 
 > 📢 **Aclaración Importante del Ecosistema Maker:**
-> En el MakerLab creemos en aprovechar las mejores herramientas disponibles. Este proyecto se apoya en plataformas externas que **no** son desarrolladas por Cenfotec, pero son vitales en la comunidad educativa global para demostrar estos conceptos:
-> * **Teachable Machine & MakeCode:** Herramientas gratuitas de Google y Microsoft, respectivamente.
-> * **Lofirobot Teachable Microbit:** Una increíble aplicación web independiente creada por un desarrollador de la comunidad Maker que funciona como puente mágico entre la IA y la placa.
+> En el MakerLab creemos en aprovechar las mejores herramientas disponibles y combinarlas con desarrollos propios. Este proyecto se apoya en:
+> * **Teachable Machine & MakeCode:** Herramientas gratuitas de Google y Microsoft, respectivamente, para el entrenamiento de IA y la programación por bloques.
+> * **MakerLab AI Bridge:** Una aplicación web exclusiva desarrollada por nosotros que funciona como puente "mágico" y directo entre la Inteligencia Artificial de Google y tu placa Micro:bit.
 
 ---
 
@@ -17,8 +17,8 @@ Antes de ver los ejemplos prácticos, entendamos las piezas del rompecabezas:
 
 * 🧠 **El Cerebro Digital (Teachable Machine):** Aquí entrenamos el modelo de IA. Mediante *Aprendizaje Supervisado*, le mostramos a la computadora muchas fotos etiquetadas (ej. "Rojo", "Verde") para que encuentre patrones matemáticos y aprenda a diferenciarlos.
 * 🦾 **El Cuerpo Físico (BBC Micro:bit):** Es nuestro microcontrolador. Él no sabe de IA, solo obedece órdenes. Ejecutará acciones físicas (mostrar caras, encender luces o mover motores) basándose en lo que la computadora le diga.
-* 🌐 **El Sistema Nervioso (Lofirobot Bridge):** Es la página web que conecta la cámara de tu PC o teléfono con la antena de la placa.
-* 📡 **El Idioma (Bluetooth UART):** El protocolo de comunicación. Lofirobot le "susurra" inalámbricamente mensajes de texto cortos al Micro:bit (ej. "Feliz", "Abrir") para que sepa cómo actuar.
+* 🌐 **El Sistema Nervioso (MakerLab AI Bridge):** Es nuestra página web propia que conecta de forma segura la cámara de tu PC o teléfono con la antena Bluetooth de la placa.
+* 📡 **El Idioma (Bluetooth UART):** El protocolo de comunicación. Nuestra página web le "susurra" inalámbricamente mensajes de texto cortos al Micro:bit (ej. "Feliz", "Abrir") para que sepa cómo actuar en tiempo real.
 
 ### 💡 El Secreto de una buena IA: La Calidad de los Datos
 Es vital entender que **el rendimiento del modelo depende 100% de la calidad de las imágenes con las que se entrene**. Un modelo de IA no es "mágico"; si le das datos pobres, tomará decisiones pobres. Para que tu proyecto funcione perfectamente, sigue estas reglas al capturar tus fotos:
@@ -80,7 +80,7 @@ Este experimento demuestra cómo la IA puede cuantificar elementos en pantalla y
 | Cantidad | Componente | Función |
 | :--- | :--- | :--- |
 | 1 | BBC Micro:bit (V1 o V2) | Microcontrolador principal con matriz LED y BLE. |
-| 1 | Computadora con Webcam | Para entrenar la IA y ejecutar el modelo en la web. |
+| 1 | Computadora o Teléfono | Para entrenar la IA y ejecutar el modelo en la web. |
 | 1 | Cable Micro-USB | Para cargar el programa base en el Micro:bit. |
 | 1 | Servo Motor SG90 (Opcional) | Actuador para abrir un acceso/portón (Ejemplo 3). |
 | 3 | Cables Jumper | Para realizar las conexiones del servo (Ejemplo 3). |
@@ -112,14 +112,15 @@ Para facilitar tu aprendizaje, hemos dejado listos los modelos de IA y los códi
 
 ### Paso 2: Conectar el Puente y los Modelos
 1.  Abre la carpeta 📁 [modelos](https://github.com/Aggy2025/makerlab-mini-proyectos/blob/main/05-Microbit_MachineLearning/modelos/modelos.md) de este proyecto. Allí encontrarás archivos de texto con los enlaces pre-entrenados para cada uno de los 3 ejemplos. Copia el enlace que deseas usar.
-2.  Entra a la herramienta web: 🔗 [Lofirobot Teachable Microbit](https://cardboard.lofirobot.com/teachable-microbit/).
-3.  Pega el enlace de tu modelo en la casilla de la página web.
-4.  
- ![Modelo](imagenes/Lofitobot_Techable_Microbit.png)
+2.  Ingresa a nuestra página web oficial: 🔗 **[MakerLab AI Bridge](https://universidad-cenfotec.github.io/makerlab-learning-projects/microbitWeb/)** *(Nota: Debes abrirlo desde Google Chrome o Microsoft Edge, ya que son los navegadores que soportan Web Bluetooth).*
+3.  Pega el enlace de tu modelo en el cuadro de la sección **1️⃣ Configurar Inteligencia Artificial** y presiona el botón **Cargar Modelo**. Acepta los permisos de cámara.
+ 
+ ![Modelo](imagenes/Cargar_Modelo_Bridge.png)
 
-6.  Presiona **Connect Micro:bit**, selecciona tu placa en la lista de Bluetooth (recuerda tener activa la configuración de "No Pairing Required" en MakeCode) y ¡listo! Pon a prueba la inteligencia del sistema frente a la cámara.
+4.  Ve a la sección **3️⃣ Conexión Hardware**, presiona **Emparejar Micro:bit** y selecciona tu placa en la lista de Bluetooth (recuerda tener activa la configuración de "No Pairing Required" en MakeCode).
+5.  ¡Listo! Pon a prueba la inteligencia del sistema frente a la cámara. Revisa la Terminal integrada para ver cómo fluyen los datos en tiempo real.
 
- ![Conectar](imagenes/Conectar_microbit.png)
+ ![Conectar](imagenes/Conectar_microbit_Bridge.png)
 ---
 
 ## 🏗️ Crea tu propio proyecto (Guía Paso a Paso)
@@ -133,21 +134,19 @@ Para facilitar tu aprendizaje, hemos dejado listos los modelos de IA y los códi
 4. Haz clic en **Entrenar Modelo** y pruébalo en la vista previa.
 5. Presiona **Exportar el modelo**, selecciona la pestaña **Subir (Upload)**, sube tu modelo y **copia el enlace (URL)**.
 
-
 ### 2. Programar la Placa (El Cuerpo)
 1. Entra a [MakeCode Micro:bit](https://makecode.microbit.org/) y crea un Nuevo Proyecto.
 2. Ve a las extensiones y busca **Bluetooth**.
 3. Haz clic en el engranaje ⚙️ -> **Configuración del proyecto** y selecciona **"No Pairing Required: Anyone can connect via Bluetooth"**. ¡Esto es vital para que la web detecte tu placa!
-4. En el bloque `al iniciar`, agrega `bluetooth start uart service`.
-5. Usa el evento `on bluetooth uart data received` (configurado en `until new line`) para leer los mensajes que llegan.
-6. Crea condiciones lógicas (`if/else`). **Si el texto recibido es igual a "Perro"**, pon los bloques que definan qué hará el Micro:bit (ej. mostrar una cara feliz).
+4. En el bloque `al iniciar`, agrega el bloque `bluetooth comenzar servicio uart`.
+5. **⚠️ MUY IMPORTANTE:** Usa el evento `bluetooth al recibir datos hasta (nueva línea \n)` y dentro coloca un bloque para leer exactamente hasta ese mismo carácter `(nueva línea \n)`. Esto le avisa al Micro:bit dónde termina la palabra.
+6. Crea condiciones lógicas (`si/si no`). **Si el texto recibido es igual a "Perro"**, pon los bloques que definan qué hará el Micro:bit (ej. mostrar una cara feliz).
 7. Descarga el código y pásalo a tu Micro:bit.
 
-
 ### 3. Conectar y Ejecutar (El Puente)
-1. Con tu Micro:bit encendido por batería o USB, abre [Lofirobot](https://cardboard.lofirobot.com/teachable-microbit/).
-2. Pega la URL de tu modelo de Teachable Machine.
-3. Presiona **Connect Micro:bit**, selecciona tu placa y ¡listo! Revisa cómo tu hardware obedece a tu propia Inteligencia Artificial.
+1. Con tu Micro:bit encendido por batería o USB, abre la página de 🔗 **[MakerLab AI Bridge](https://universidad-cenfotec.github.io/makerlab-learning-projects/microbitWeb/)** en Chrome o Edge.
+2. Pega la URL de tu nuevo modelo de Teachable Machine y cárgalo.
+3. Presiona **Emparejar Micro:bit**, selecciona tu placa y ¡listo! Revisa cómo tu hardware obedece a tu propia Inteligencia Artificial.
 
 ---
 
@@ -157,6 +156,8 @@ Para facilitar tu aprendizaje, hemos dejado listos los modelos de IA y los códi
 * 📁 `codigos/`: Los archivos de programación de MakeCode (Emociones, Conteo y Servo) listos para la placa.
 * 📁 `modelos/`: Enlaces URL de Teachable Machine con los entrenamientos pre-configurados.
 * 📁 `imagenes/`: Fotografías del montaje, capturas de pantalla de código y demostraciones.
+
+> **Nota sobre el Bridge:** El código fuente de nuestra plataforma web (*MakerLab AI Bridge*) vive dentro de este mismo repositorio en la ruta `docs/microbitWeb/index.html`.
 
 ---
 
