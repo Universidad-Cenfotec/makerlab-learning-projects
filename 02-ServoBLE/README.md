@@ -121,7 +121,7 @@ Durante la ejecución, la interfaz web te mostrará exactamente qué está pensa
 
 Así funciona el prototipo ServoBLE completo:
 
-[Ver demostración del sistema](imagenes/Resultado.mp4)
+[Ver demostración del sistema](imagenes/Resultado.gif)
 
 ## 🔬 Aprendizajes Clave MakerLab
 
