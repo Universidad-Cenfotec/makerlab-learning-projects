@@ -55,6 +55,7 @@
             margin: 3rem auto;
             padding: 0 2rem;
             display: grid;
+            /* Auto-fit asegura que las tarjetas se adapten al espacio disponible */
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             flex-grow: 1;
@@ -126,6 +127,41 @@
             padding: 1.5rem;
             margin-top: auto;
             font-size: 0.9rem;
+        }
+
+        /* =========================================================
+           AJUSTES RESPONSIVOS (MÓVILES Y TABLETS)
+           ========================================================= */
+        @media (max-width: 768px) {
+            /* Reduce el tamaño del encabezado y la fuente */
+            header {
+                padding: 2rem 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            header p {
+                font-size: 1rem;
+            }
+
+            /* Ajusta los márgenes y obliga a usar una sola columna */
+            .container {
+                margin: 2rem auto;
+                padding: 0 1.2rem;
+                grid-template-columns: 1fr; /* 1 sola columna en móviles */
+                gap: 1.5rem;
+            }
+
+            /* Reduce un poco el padding interno de las tarjetas */
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .card-icon {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
