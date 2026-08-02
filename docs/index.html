@@ -3,674 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MakerLab AI Bridge</title>
-
-    <!-- Fuentes de Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- TensorFlow & Teachable Machine -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image/dist/teachablemachine-image.min.js"></script>
-
+    <title>MakerLab - Herramientas Web</title>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-hover: #4f46e5;
-            --secondary: #ec4899;
-            --bg-color: #f3f4f6;
+            /* Colores inspirados en tecnología y el entorno universitario */
+            --primary-color: #004B87; /* Azul institucional */
+            --secondary-color: #0077C8;
+            --accent-color: #F2A900; /* Naranja/Amarillo acento */
+            --bg-color: #f8f9fa;
             --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --success: #10b981;
-            --success-light: #d1fae5;
-            --warning: #f59e0b;
-            --warning-light: #fef3c7;
-            --danger: #ef4444;
-            --danger-light: #fee2e2;
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            --radius: 16px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
+            --text-main: #333333;
+            --text-muted: #6c757d;
         }
 
         body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            min-height: 100vh;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* HEADER ANIMADO */
+        /* Encabezado */
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
-            padding: 50px 20px;
+            padding: 3rem 1rem;
             text-align: center;
-            box-shadow: var(--shadow-lg);
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-
-        header::after {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
-            animation: rotateBg 20s linear infinite;
-        }
-
-        @keyframes rotateBg { 100% { transform: rotate(360deg); } }
 
         header h1 {
-            font-size: 3rem;
+            margin: 0;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            letter-spacing: 1px;
         }
 
         header p {
+            margin: 10px 0 0;
             font-size: 1.2rem;
-            opacity: 0.95;
-            position: relative;
-            z-index: 1;
+            opacity: 0.9;
         }
 
-        /* CONTENEDOR PRINCIPAL */
+        /* Contenedor de las tarjetas */
         .container {
-            max-width: 1200px;
-            margin: -30px auto 40px auto;
-            padding: 0 15px;
-            position: relative;
-            z-index: 2;
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
             flex-grow: 1;
+        }
+
+        /* Estilo de cada tarjeta */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: flex;
             flex-direction: column;
-            gap: 30px;
-        }
-
-        /* TARJETAS BASE */
-        .card {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: var(--shadow-lg);
-            border-top: 4px solid transparent;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            justify-content: space-between;
+            border-top: 4px solid var(--secondary-color);
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+            border-top: 4px solid var(--accent-color);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-align: center;
         }
 
         .card h2 {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--text-main);
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            text-align: center;
         }
 
         .card p {
             color: var(--text-muted);
             line-height: 1.6;
-            font-size: 0.95rem;
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        /* SECCIÓN HERRAMIENTAS */
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .tool-card.tm { border-top-color: #4285F4; }
-        .tool-card.mc { border-top-color: #00A693; }
-
-        .btn-link {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-        }
-        
-        .btn-link.tm-link { background: #e8f0fe; color: #1a73e8; }
-        .btn-link.tm-link:hover { background: #d2e3fc; }
-        .btn-link.mc-link { background: #e6f6f4; color: #007a6c; }
-        .btn-link.mc-link:hover { background: #ccece8; }
-
-        /* SECCIÓN INTERACTIVA */
-        .app-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-        }
-        @media (min-width: 900px) {
-            .app-grid { grid-template-columns: 1fr 1fr; }
-        }
-
-        /* INPUTS Y BOTONES */
-        .input-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        input {
-            flex-grow: 1;
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 12px;
-            border: 2px solid #e5e7eb;
-            font-size: 1rem;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-        }
-
-        button {
-            padding: 14px 24px;
-            border: none;
-            border-radius: 12px;
-            background: var(--primary);
+        /* Botón falso para indicar acción */
+        .btn {
+            display: block;
+            background-color: var(--primary-color);
             color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        button:hover { background: var(--primary-hover); transform: scale(1.02); }
-        button:active { transform: scale(0.98); }
-        button:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
-
-        /* ZONA DE CÁMARA */
-        .vision-card { border-top-color: var(--primary); }
-        
-        #camera-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #111827;
-            border-radius: 16px;
-            padding: 10px;
-            min-height: 320px;
-            margin: 20px 0;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
-
-        canvas {
-            border-radius: 12px;
-            width: 100%;
-            max-width: 300px;
-            object-fit: cover;
-        }
-
-        /* ESCÁNER ANIMADO */
-        .scanner-line {
-            display: none;
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: rgba(99, 102, 241, 0.8);
-            box-shadow: 0 0 15px var(--primary);
-            animation: scan 2.5s infinite linear;
-        }
-        @keyframes scan {
-            0% { top: 0%; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-
-        /* RESULTADOS */
-        .result-box {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--bg-color);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid #e5e7eb;
-        }
-
-        .result-info h3 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px; }
-        #pred-class { font-size: 2rem; font-weight: 700; color: var(--primary); word-break: break-word; }
-        
-        .prob-circle {
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            background: conic-gradient(var(--success) 0%, #e5e7eb 0%);
-            display: flex; justify-content: center; align-items: center;
-            position: relative;
-            flex-shrink: 0;
-        }
-        .prob-circle::after {
-            content: ''; position: absolute;
-            width: 65px; height: 65px; background: var(--bg-color); border-radius: 50%;
-        }
-        #pred-prob { position: relative; z-index: 1; font-weight: 700; font-size: 1.1rem; }
-
-        /* BLUETOOTH */
-        .bluetooth-card { border-top-color: #3b82f6; }
-        
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-weight: 600;
-            width: 100%;
-            justify-content: center;
-            margin-bottom: 20px;
-            transition: all 0.3s;
             text-align: center;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
-        .status-badge.disconnected { background: var(--danger-light); color: var(--danger); }
-        .status-badge.connected { background: var(--success-light); color: var(--success); }
-        .status-badge.waiting { background: var(--warning-light); color: var(--warning); }
-
-        .terminal {
-            background: #1f2937;
-            color: #10b981;
-            font-family: monospace;
-            padding: 15px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            height: 120px;
-            overflow-y: auto;
-            margin-top: 15px;
-            word-wrap: break-word;
+        .card:hover .btn {
+            background-color: var(--accent-color);
+            color: #000;
         }
 
-        /* FOOTER */
+        /* Pie de página */
         footer {
+            background-color: #222;
+            color: #ccc;
             text-align: center;
-            padding: 30px 15px;
-            color: var(--text-muted);
-            background: white;
-            border-top: 1px solid #e5e7eb;
+            padding: 1.5rem;
             margin-top: auto;
-        }
-
-        /* ==========================================
-           MODIFICACIONES PARA MÓVILES (MEDIA QUERIES)
-           ========================================== */
-        @media (max-width: 768px) {
-            header {
-                padding: 40px 15px;
-            }
-            header h1 {
-                font-size: 2rem;
-            }
-            header p {
-                font-size: 1rem;
-            }
-            .container {
-                margin-top: -15px;
-                gap: 20px;
-            }
-            .card {
-                padding: 20px;
-            }
-            .card h2 {
-                font-size: 1.3rem;
-            }
-            .input-group {
-                flex-direction: column; /* Apila el input y el botón en celular */
-            }
-            .input-group button {
-                width: 100%;
-            }
-            .result-box {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-            .result-info h3 {
-                margin-bottom: 10px;
-            }
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>🤖 MakerLab AI Bridge</h1>
-        <p>El puente perfecto entre Inteligencia Artificial y Hardware Físico</p>
+        <h1>MakerLab - Universidad Cenfotec</h1>
+        <p>Plataforma de Herramientas de Hardware Web (Web Bluetooth)</p>
     </header>
 
     <div class="container">
         
-        <!-- SECCIÓN INFORMATIVA -->
-        <div class="tools-grid">
-            <div class="card tool-card tm">
-                <h2>🧠 Teachable Machine</h2>
-                <p>Crea modelos de Inteligencia Artificial sin escribir código. Usa tu cámara para enseñar a la IA a reconocer objetos, posturas o sonidos.</p>
-                <a href="https://teachablemachine.withgoogle.com/" target="_blank" class="btn-link tm-link">Abrir Teachable Machine ↗</a>
+        <!-- Tarjeta 1: Control Servo -->
+        <a href="./ServoBLE/" class="card">
+            <div>
+                <div class="card-icon">⚙️</div>
+                <h2>Control Servo BLE</h2>
+                <p>Interfaz web para controlar de forma inalámbrica un servomotor conectado a un microcontrolador usando Web Bluetooth.</p>
             </div>
+            <span class="btn">Abrir Herramienta</span>
+        </a>
 
-            <div class="card tool-card mc">
-                <h2>⚙️ Micro:bit & MakeCode</h2>
-                <p>Programa tu Micro:bit con el bloque <code>bluetooth start uart service</code> y <code>on data received</code>. Esta web enviará la predicción vía Bluetooth.</p>
-                <a href="https://makecode.microbit.org/" target="_blank" class="btn-link mc-link">Abrir MakeCode ↗</a>
+        <!-- Tarjeta 2: Sumobot -->
+        <a href="./SumoWeb/" class="card">
+            <div>
+                <div class="card-icon">🤖</div>
+                <h2>Control Sumobot Web</h2>
+                <p>Aplicación de control remoto tipo "joystick" para dirigir los motores de tu Sumobot y monitorear sus sensores en vivo.</p>
             </div>
-        </div>
+            <span class="btn">Abrir Herramienta</span>
+        </a>
 
-        <!-- SECCIÓN CARGA DE MODELO -->
-        <div class="card" style="border-top-color: var(--secondary);">
-            <h2>1️⃣ Configurar Inteligencia Artificial</h2>
-            <p>Pega aquí el enlace de tu modelo de Teachable Machine</p>
-            <div class="input-group">
-                <input id="modelURL" type="url" placeholder="Ej: https://teachablemachine.withgoogle.com/models/xxxx/" />
-                <button id="btnLoadModel" onclick="loadModel()">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                    Cargar Modelo
-                </button>
+        <!-- Tarjeta 3: AI Bridge (Microbit) -->
+        <a href="./microbitWeb/" class="card">
+            <div>
+                <div class="card-icon">🧠</div>
+                <h2>MakerLab AI Bridge</h2>
+                <p>Nuestra herramienta puente. Conecta modelos de IA de Google Teachable Machine directamente con tu placa Micro:bit.</p>
             </div>
-        </div>
-
-        <!-- SECCIÓN PRINCIPAL (GRID) -->
-        <div class="app-grid">
-            <!-- VISIÓN ARTIFICIAL -->
-            <div class="card vision-card">
-                <h2>2️⃣ Visión Artificial</h2>
-                <p>Apunta tu cámara a los objetos que entrenaste.</p>
-                
-                <div id="camera-container">
-                    <span id="camera-msg" style="color: #6b7280; z-index: 2; text-align: center; padding: 0 10px;">Carga un modelo para encender la cámara</span>
-                    <div id="scanner" class="scanner-line"></div>
-                </div>
-
-                <div class="result-box">
-                    <div class="result-info">
-                        <h3>PREDICCIÓN ACTUAL</h3>
-                        <div id="pred-class">Esperando...</div>
-                    </div>
-                    <div class="prob-circle" id="prob-ring">
-                        <span id="pred-prob">0%</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BLUETOOTH -->
-            <div class="card bluetooth-card">
-                <h2>3️⃣ Conexión Hardware</h2>
-                <p>Cuando la IA esté muy segura (más de 85%), enviará el nombre del objeto a tu tarjeta vía Bluetooth.</p>
-                
-                <div style="margin-top: 25px;">
-                    <div id="bluetoothStatus" class="status-badge disconnected">
-                        🔴 Micro:bit Desconectado
-                    </div>
-                    
-                    <button id="btnConnect" onclick="connectBluetooth()" style="width: 100%; background: #3b82f6;">
-                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 8l12 8-6 5V3l6 5-12 8"></path></svg>
-                        Emparejar Micro:bit
-                    </button>
-
-                    <button id="btnDisconnect" onclick="disconnectBluetooth()" style="width: 100%; background: var(--danger); display: none;">
-                        Desconectar
-                    </button>
-                </div>
-
-                <div style="margin-top: 20px;">
-                    <h3 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 5px;">TERMINAL DE ENVÍO</h3>
-                    <div id="terminal" class="terminal">
-                        > Esperando conexión Bluetooth...
-                    </div>
-                </div>
-            </div>
-        </div>
+            <span class="btn">Abrir Herramienta</span>
+        </a>
 
     </div>
 
     <footer>
-        <div style="font-weight: 700; color: var(--primary); font-size: 1.2rem;">MakerLab</div>
-        Universidad Cenfotec - IA + IoT + Educación
+        <p>&copy; 2026 MakerLab - Universidad Cenfotec. Todos los derechos reservados.</p>
     </footer>
 
-    <script>
-        let model, webcam, maxPredictions;
-        let isLooping = false;
-        
-        let bleDevice = null;
-        let bleServer = null;
-        let writeCharacteristic = null;
-        
-        const UART_SERVICE_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
-        const UART_RX_UUID      = "6e400003-b5a3-f393-e0a9-e50e24dcca9e"; 
-        
-        let lastSentClass = "";
-        let lastSendTime = 0;
-
-        function logToTerminal(msg) {
-            const term = document.getElementById("terminal");
-            const time = new Date().toLocaleTimeString();
-            term.innerHTML += `<br><span style="color: #6b7280;">[${time}]</span> ${msg}`;
-            term.scrollTop = term.scrollHeight; 
-        }
-
-        async function loadModel() {
-            let url = document.getElementById("modelURL").value.trim();
-            const btn = document.getElementById("btnLoadModel");
-
-            if (!url) {
-                alert("Por favor, ingresa la URL de tu modelo de Teachable Machine.");
-                return;
-            }
-            if (!url.endsWith("/")) url += "/";
-
-            try {
-                btn.disabled = true;
-                btn.innerHTML = "⏳ Cargando...";
-
-                const modelURL = url + "model.json";
-                const metadataURL = url + "metadata.json";
-
-                model = await tmImage.load(modelURL, metadataURL);
-                maxPredictions = model.getTotalClasses();
-
-                btn.style.background = "var(--success)";
-                btn.innerHTML = "✔️ Cargado";
-                logToTerminal("Modelo de IA cargado con éxito. Iniciando cámara...");
-
-                await startCamera();
-            } catch (error) {
-                console.error(error);
-                btn.style.background = "var(--danger)";
-                btn.innerHTML = "❌ Error en URL";
-                setTimeout(() => {
-                    btn.disabled = false;
-                    btn.style.background = "var(--primary)";
-                    btn.innerHTML = "Cargar Modelo";
-                }, 3000);
-            }
-        }
-
-        async function startCamera() {
-            const cameraContainer = document.getElementById("camera-container");
-            const scanner = document.getElementById("scanner");
-            const msg = document.getElementById("camera-msg");
-            
-            if (webcam) {
-                webcam.stop();
-                const oldCanvas = cameraContainer.querySelector('canvas');
-                if(oldCanvas) cameraContainer.removeChild(oldCanvas);
-            }
-
-            msg.style.display = "none";
-            
-            // Para celulares es mejor usar la cámara trasera por defecto si es posible, 
-            // pero tmImage WebCam por defecto usa la frontal. Funciona bien para pruebas.
-            const flip = true; 
-            webcam = new tmImage.Webcam(300, 300, flip);
-            
-            try {
-                await webcam.setup({ facingMode: "environment" }); // Intenta usar cámara trasera en celulares
-                await webcam.play();
-                
-                cameraContainer.appendChild(webcam.canvas);
-                scanner.style.display = "block";
-                
-                if (!isLooping) {
-                    isLooping = true;
-                    window.requestAnimationFrame(loop);
-                }
-            } catch (error) {
-                console.error(error);
-                msg.style.display = "block";
-                msg.innerText = "❌ Permiso de cámara denegado o no disponible.";
-            }
-        }
-
-        async function loop() {
-            if (!isLooping) return;
-            webcam.update(); 
-            await predict();
-            window.requestAnimationFrame(loop);
-        }
-
-        async function predict() {
-            const prediction = await model.predict(webcam.canvas);
-            
-            let highest = prediction[0];
-            for (let i = 1; i < prediction.length; i++) {
-                if (prediction[i].probability > highest.probability) {
-                    highest = prediction[i];
-                }
-            }
-
-            const probPercentage = (highest.probability * 100).toFixed(0);
-
-            document.getElementById("pred-class").innerText = highest.className;
-            document.getElementById("pred-prob").innerText = probPercentage + "%";
-            document.getElementById("prob-ring").style.background = 
-                `conic-gradient(var(--success) ${probPercentage}%, #e5e7eb ${probPercentage}%)`;
-
-            const now = Date.now();
-            if (writeCharacteristic && highest.probability > 0.85) {
-                if (highest.className !== lastSentClass || (now - lastSendTime) > 2000) {
-                    sendDataToMicrobit(highest.className);
-                    lastSentClass = highest.className;
-                    lastSendTime = now;
-                }
-            }
-        }
-
-        async function connectBluetooth() {
-            const statusBle = document.getElementById("bluetoothStatus");
-            
-            if (!navigator.bluetooth) {
-                alert("Tu navegador no soporta Web Bluetooth. Usa Google Chrome para Android/PC.");
-                return;
-            }
-
-            try {
-                statusBle.className = "status-badge waiting";
-                statusBle.innerHTML = "🟡 Buscando dispositivos...";
-                logToTerminal("Solicitando permisos de Bluetooth...");
-
-                bleDevice = await navigator.bluetooth.requestDevice({
-                    acceptAllDevices: true,
-                    optionalServices: [UART_SERVICE_UUID]
-                });
-
-                bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
-
-                statusBle.innerHTML = "🟡 Vinculando...";
-                logToTerminal(`Vinculando con ${bleDevice.name || 'Dispositivo'}...`);
-                
-                bleServer = await bleDevice.gatt.connect();
-                
-                logToTerminal("Obteniendo servicio UART...");
-                const service = await bleServer.getPrimaryService(UART_SERVICE_UUID);
-
-                logToTerminal("Abriendo canal de datos (RX)...");
-                writeCharacteristic = await service.getCharacteristic(UART_RX_UUID);
-
-                statusBle.className = "status-badge connected";
-                statusBle.innerHTML = `🟢 Conectado: ${bleDevice.name || "Micro:bit"}`;
-                logToTerminal('<span style="color:var(--success)">✅ Conexión establecida lista para enviar datos.</span>');
-                
-                document.getElementById("btnConnect").style.display = "none";
-                document.getElementById("btnDisconnect").style.display = "flex";
-
-            } catch (error) {
-                console.error("Error de Bluetooth:", error);
-                statusBle.className = "status-badge disconnected";
-                
-                if(error.name === 'NotFoundError') {
-                    statusBle.innerHTML = "🔴 Búsqueda cancelada";
-                    logToTerminal("Búsqueda Bluetooth cancelada por el usuario.");
-                } else {
-                    statusBle.innerHTML = "🔴 Error de conexión";
-                    logToTerminal(`Error: ${error.message}`);
-                }
-            }
-        }
-
-        async function sendDataToMicrobit(text) {
-            if (!writeCharacteristic) return;
-            try {
-                const encoder = new TextEncoder();
-                const data = encoder.encode(text + "\n");
-                
-                if (writeCharacteristic.properties.writeWithoutResponse) {
-                    await writeCharacteristic.writeValueWithoutResponse(data);
-                } else {
-                    await writeCharacteristic.writeValue(data);
-                }
-                
-                logToTerminal(`> Enviado: <strong>${text}</strong>`);
-            } catch (error) {
-                logToTerminal(`<span style="color:var(--danger)">Error de envío: ${error.message}</span>`);
-            }
-        }
-
-        function disconnectBluetooth() {
-            if (!bleDevice) return;
-            if (bleDevice.gatt.connected) {
-                bleDevice.gatt.disconnect();
-            }
-        }
-
-        function onDisconnected() {
-            const statusBle = document.getElementById("bluetoothStatus");
-            statusBle.className = "status-badge disconnected";
-            statusBle.innerHTML = "🔴 Micro:bit Desconectado";
-            logToTerminal('<span style="color:var(--warning)">⚠️ Dispositivo desconectado.</span>');
-            
-            document.getElementById("btnConnect").style.display = "flex";
-            document.getElementById("btnDisconnect").style.display = "none";
-            
-            bleServer = null;
-            writeCharacteristic = null;
-        }
-    </script>
 </body>
 </html>
