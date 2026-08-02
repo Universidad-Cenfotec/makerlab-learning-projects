@@ -117,6 +117,11 @@ Durante la ejecución, la interfaz web te mostrará exactamente qué está pensa
 | 🔓 **Portón Abierto** | Se envió la orden al Servo para abrir el paso. |
 
 ---
+## 🎥 Resultado Final
+
+Así funciona el prototipo ServoBLE completo:
+
+[Ver demostración del sistema](imagenes/Resultado.mp4)
 
 ## 🔬 Aprendizajes Clave MakerLab
 
