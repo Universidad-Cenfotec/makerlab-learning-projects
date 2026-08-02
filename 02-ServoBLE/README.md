@@ -72,7 +72,6 @@ Para replicar este proyecto y armar tu propia barrera, guíate con estas imágen
 
 **Circuito Final**
 ![CircuitoFinal](imagenes/CircuitoFinal.jpeg)
----
 
 ## 💻 Configuración del Software
 
