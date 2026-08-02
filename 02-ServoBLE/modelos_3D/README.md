@@ -16,9 +16,9 @@ Material recomendado
 
 ---
 
-### Barrera
+### Barra
 
-El servomotor controla el brazo de una barrera de acceso, simulando un sistema utilizado en estacionamientos, condominios y puntos de control vehicular.
+El servomotor controla una barra de acceso, simulando un sistema utilizado en estacionamientos, condominios y puntos de control vehicular.
 
 Material recomendado
 
