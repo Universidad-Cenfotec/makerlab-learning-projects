@@ -62,7 +62,7 @@ Para replicar este proyecto y armar tu propia barrera, guíate con estas imágen
 
 
 **IdeaBoard y Caja de baterias**
-![Ideaboard_CajaBateias](imagenes/IdeaBoard_CajaBaterias.jpeg)
+![Ideaboard_CajaBaterias](imagenes/IdeaBoard_CajaBaterias.jpeg)
 
 **Servomotor**
 ![Servomotor](imagenes/Servomotor.jpeg)
