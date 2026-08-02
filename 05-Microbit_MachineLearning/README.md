@@ -113,7 +113,9 @@ Para facilitar tu aprendizaje, hemos dejado listos los modelos de IA y los códi
 ### Paso 2: Conectar el Puente y los Modelos
 1.  Abre la carpeta 📁 [modelos](https://github.com/Aggy2025/makerlab-mini-proyectos/blob/main/05-Microbit_MachineLearning/modelos/modelos.md) de este proyecto. Allí encontrarás archivos de texto con los enlaces pre-entrenados para cada uno de los 3 ejemplos. Copia el enlace que deseas usar.
 2.  Ingresa a nuestra página web oficial: 🔗 **[MakerLab AI Bridge](https://universidad-cenfotec.github.io/makerlab-learning-projects/microbitWeb/)** *(Nota: Debes abrirlo desde Google Chrome o Microsoft Edge, ya que son los navegadores que soportan Web Bluetooth).*
-3.  Pega el enlace de tu modelo en el cuadro de la sección **1️⃣ Configurar Inteligencia Artificial** y presiona el botón **Cargar Modelo**. Acepta los permisos de cámara.
+   Tambien se puede abrir desde el celular.
+   ![ServoBLE](https://github.com/Universidad-Cenfotec/makerlab-learning-projects/blob/main/docs/imagenes/MakerLab_QR.svg) 
+4.  Pega el enlace de tu modelo en el cuadro de la sección **1️⃣ Configurar Inteligencia Artificial** y presiona el botón **Cargar Modelo**. Acepta los permisos de cámara.
  
  ![Modelo](imagenes/Cargar_Modelo_Bridge.png)
 
