@@ -60,7 +60,6 @@ Como aprendimos en proyectos anteriores del MakerLab, los motores consumen mucha
 
 Para replicar este proyecto y armar tu propia barrera, guíate con estas imágenes de referencia:
 
-
 **IdeaBoard y Caja de baterias**
 ![Ideaboard_CajaBaterias](imagenes/IdeaBoard_CajaBaterias.jpeg)
 
@@ -83,14 +82,15 @@ Este proyecto está dividido en dos partes: el código que vive en la placa (Har
 3. Carga este código dentro de tu IdeaBoard (usualmente copiándolo a la unidad virtual `CIRCUITPY` o a través de tu entorno de desarrollo habitual).
 
 ### 2. El Centro de Control (Web y Código QR)
-¡No necesitas instalar aplicaciones ni descargar archivos para controlar el portón! La interfaz está alojada en la nube gracias a GitHub Pages.
+¡No necesitas instalar aplicaciones ni descargar archivos para controlar el portón! La interfaz está alojada en la nube gracias a GitHub Pages dentro de nuestra plataforma del MakerLab.
 
-1. **Desde tu computadora:** Ingresa directamente al siguiente enlace utilizando Google Chrome o Microsoft Edge:
-   🔗 **[Aplicación Web ServoBLE](https://aggy2025.github.io/Servo-BLE/)**
+1. **Desde tu computadora o teléfono:** Ingresa directamente a nuestra herramienta web utilizando Google Chrome o Microsoft Edge:
+   🔗 **[Aplicación Web ServoBLE](https://universidad-cenfotec.github.io/makerlab-learning-projects/ServoBLE/)**
 
-2. **Desde tu teléfono móvil:** Simplemente escanea este código QR para abrir la aplicación de control al instante:
+2. *(Opcional)* **Código QR:** Simplemente escanea este código QR para abrir la aplicación de control al instante desde tu teléfono:
    
-   ![ServoBLE](imagenes/ServoBLE.svg)
+   ![ServoBLE](imagenes/ServoBLE.svg) 
+   *(Nota: Asegúrate de actualizar la imagen SVG del código QR si generaste uno nuevo para la nueva dirección web).*
 
 ---
 
@@ -99,7 +99,8 @@ Este proyecto está dividido en dos partes: el código que vive en la placa (Har
 1. **Encendido:** Conecta la alimentación de tu IdeaBoard y asegúrate de que las baterías del servo estén encendidas. El sistema iniciará su antena BLE automáticamente.
 2. **Emparejamiento:** En la página web oficial, presiona el botón **"Conectar BLE"**.
 3. Aparecerá una ventana de tu navegador buscando dispositivos. Selecciona el que dice **`Porton_Sumobot`** (o el nombre que hayas configurado) y dale a "Emparejar".
-4. **Interacción:** * Pasa tu mano frente al sensor ultrasónico. La página web cambiará su estado a **"Objeto Detectado"**.
+4. **Interacción:** 
+   * Pasa tu mano frente al sensor ultrasónico. La página web cambiará su estado a **"Objeto Detectado"**.
    * Haz clic en el botón de **"Abrir Portón"** en la web. El mensaje viajará de forma inalámbrica hasta la IdeaBoard y el servomotor abrirá el acceso.
 
 ---
@@ -117,6 +118,7 @@ Durante la ejecución, la interfaz web te mostrará exactamente qué está pensa
 | 🔓 **Portón Abierto** | Se envió la orden al Servo para abrir el paso. |
 
 ---
+
 ## 🎥 Resultado Final
 
 Así funciona el prototipo ServoBLE completo:
@@ -135,4 +137,3 @@ Históricamente, controlar hardware desde un teléfono requería programar una A
 
 **3. Prototipado y Fabricación Digital:**
 Este proyecto es la excusa perfecta para usar las **impresoras 3D** del MakerLab. Diseñar una base para el IdeaBoard, un soporte frontal para el ultrasonido y la barrera plástica del portón completa el ciclo de "Idea a Producto".
-
