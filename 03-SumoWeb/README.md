@@ -37,11 +37,13 @@ Para lograr que el robot navegue con precisión y se comunique con tu teléfono,
 Para controlar el robot, no necesitas descargar nada. La interfaz está alojada de forma pública y es 100% *responsive* (se adapta a la pantalla de tu computadora, tablet o celular).
 
 1. **Desde tu computadora:** Ingresa al siguiente enlace usando Google Chrome o Microsoft Edge:
-   🔗 **[Interfaz Web Cenfobot Control](https://aggy2025.github.io/cenfobot-control/)**
+   🔗 **[Interfaz Web Cenfobot Control](https://universidad-cenfotec.github.io/makerlab-learning-projects/)**
 
 2. **Desde tu teléfono móvil:** Escanea este código QR con tu cámara para abrir el control al instante:
 
-   ![QR Cenfobot](imagenes/qr_sumobot_control.png)
+   ![Sumobot](https://github.com/Universidad-Cenfotec/makerlab-learning-projects/blob/main/docs/imagenes/MakerLab_QR.svg) 
+   
+
 
 *(Nota: Actualmente el navegador Safari en iOS no soporta Web Bluetooth nativo. Recomendamos usar Chrome en Android o en PC).*
 
