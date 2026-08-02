@@ -73,8 +73,11 @@ Para replicar este proyecto y armar tu propia barrera, guíate con estas imágen
 **Jumpers**
 ![Jumpers](imagenes/Jumpers.jpeg)
 
+**CajaBaterias**
+![CajaBaterias](imagenes/CajaBaterias.jpeg)
+
 **Circuito Final**
-![Circuito Final](imagenes/CircuitoFinal.jpeg)
+![CircuitoFinal](imagenes/CircuitoFinal.jpeg)
 ---
 
 ## 💻 Configuración del Software
