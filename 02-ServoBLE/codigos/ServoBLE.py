@@ -10,43 +10,53 @@ from adafruit_ble.services.nordic import UARTService
 # ==================================================
 # INICIALIZACIÓN
 # ==================================================
+
 ib = IdeaBoard()
 
-# Servo
+# ---------------- Servo ----------------
 servo = ib.Servo(board.IO4)
+
 REPOSO = 90
 ABIERTO = 0
+
 servo.angle = REPOSO
 
-# Ultrasonico
+# ---------------- Ultrasonico ----------------
 sonar = HCSR04(board.IO26, board.IO25)
 
-# BLE
+# ---------------- BLE ----------------
 ble = BLERadio()
 ble.name = "Porton_Sumobot"
 
 uart = UARTService()
 advertisement = ProvideServicesAdvertisement(uart)
 
-print("Sistema listo")
+print("====================================")
+print(" Sistema listo")
+print(" Servo inicializado")
+print(" BLE listo")
+print("====================================")
 
-# ==================================================
-# VARIABLES
-# ==================================================
 objeto_detectado = False
-contador = 0
+ultimo_envio = time.monotonic()
 
 # ==================================================
 # LOOP PRINCIPAL
 # ==================================================
+
 while True:
 
-    # 🔵 Esperando conexión
-    ib.pixel = (0,0,255)
+    # Esperando conexión
+    ib.pixel = (0, 0, 255)
+
     ble.start_advertising(advertisement)
 
+    print("Esperando conexión BLE...")
+
     while not ble.connected:
+
         try:
+
             distancia = sonar.dist_cm()
 
             if distancia != -1 and distancia < 50:
@@ -59,17 +69,23 @@ while True:
 
         time.sleep(0.2)
 
-    # 🟢 Conectado
+    # Conectado
     ble.stop_advertising()
-    ib.pixel = (0,255,0)
+
+    ib.pixel = (0, 255, 0)
+
     uart.write("CONECTADO\n")
+
+    print("Cliente conectado")
 
     while ble.connected:
 
-        # ==============================
-        # 1️⃣ Leer ultrasónico
-        # ==============================
+        # =====================================
+        # Leer sensor
+        # =====================================
+
         try:
+
             distancia = sonar.dist_cm()
 
             if distancia != -1 and distancia < 50:
@@ -80,38 +96,67 @@ while True:
         except RuntimeError:
             pass
 
-        # ==============================
-        # 2️⃣ Enviar estado cada cierto tiempo
-        # ==============================
-        contador += 1
+        # =====================================
+        # Enviar estado cada segundo
+        # =====================================
 
-        if contador >= 3:  # cada ~1 segundo
+        if time.monotonic() - ultimo_envio >= 1:
+
             if objeto_detectado:
                 uart.write("OBJETO_DETECTADO\n")
             else:
                 uart.write("AREA_LIBRE\n")
 
-            contador = 0
+            ultimo_envio = time.monotonic()
 
-        # ==============================
-        # 3️⃣ Recibir comandos BLE
-        # ==============================
+        # =====================================
+        # Leer comandos BLE
+        # =====================================
+
         data = uart.readline()
+
         if data:
-            texto = data.decode("utf-8").strip()
-            print("Recibido:", texto)
 
-            if texto == "ABRIR" and objeto_detectado:
-                servo.angle = ABIERTO
-                uart.write("PORTON_ABIERTO\n")
+            try:
 
-            elif texto == "CERRAR":
-                servo.angle = REPOSO
-                uart.write("PORTON_CERRADO\n")
+                texto = data.decode("utf-8").strip()
 
-        time.sleep(0.2)
+                print("Comando recibido:", texto)
 
-    # 🔴 Desconectado
+                if texto == "ABRIR":
+
+                    print("Abriendo portón")
+
+                    servo.angle = ABIERTO
+
+                    time.sleep(1)
+
+                    uart.write("PORTON_ABIERTO\n")
+
+                elif texto == "CERRAR":
+
+                    print("Cerrando portón")
+
+                    servo.angle = REPOSO
+
+                    time.sleep(1)
+
+                    uart.write("PORTON_CERRADO\n")
+
+            except Exception as e:
+
+                print("Error:", e)
+
+        time.sleep(0.05)
+
+    # =====================================
+    # Desconectado
+    # =====================================
+
+    print("Cliente desconectado")
+
     servo.angle = REPOSO
-    ib.pixel = (0,0,0)
-    print("BLE desconectado")
+
+    ib.pixel = (0, 0, 0)
+
+    time.sleep(0.5)
