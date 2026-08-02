@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MakerLab AI Bridge</title>
+
+    <!-- TensorFlow & Teachable Machine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image/dist/teachablemachine-image.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #512da8;
+            --primary-hover: #311b92;
+            --bg-gradient: linear-gradient(135deg, #eef2ff, #ffffff);
+            --card-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            --success: #c8e6c9;
+            --success-text: #1b5e20;
+            --danger: #ffcdd2;
+            --danger-text: #b71c1c;
+            --warning: #fff9c4;
+            --warning-text: #f57f17;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            background: linear-gradient(135deg, var(--primary), #673ab7);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* CONTENEDOR PRINCIPAL */
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            gap: 25px;
+            flex-grow: 1;
+        }
+
+        /* TARJETAS */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* FORMULARIOS Y BOTONES */
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input {
+            flex-grow: 1;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+        }
+
+        button:hover {
+            background: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* CÁMARA Y PREDICCIÓN */
+        #camera-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 20px;
+            min-height: 360px;
+            align-items: center;
+        }
+
+        canvas {
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .prediction-box {
+            text-align: center;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+        }
+
+        .prediction-class {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .prediction-prob {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        /* ESTADOS */
+        .status {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .status.disconnected { background: var(--danger); color: var(--danger-text); }
+        .status.connected { background: var(--success); color: var(--success-text); }
+        .status.waiting { background: var(--warning); color: var(--warning-text); }
+
+        /* ARQUITECTURA */
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .arch-item {
+            background: #f8f9fa;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #eee;
+        }
+
+        .arch-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            background: white;
+            margin-top: auto;
+            border-top: 1px solid #eee;
+        }
+
+        @media (min-width: 768px) {
+            .grid-2-col {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🤖 MakerLab AI Bridge</h1>
+        <p>Conectando Inteligencia Artificial con Hardware Físico</p>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECCIÓN DE CARGA DE MODELO -->
+        <div class="card">
+            <h2>🧠 Configurar Inteligencia Artificial</h2>
+            <p style="margin-bottom: 15px; color: #555;">Inserta la URL generada por <strong>Teachable Machine</strong> (Debe incluir el <code>https://</code>)</p>
+            <div class="input-group">
+                <input id="modelURL" type="url" placeholder="https://teachablemachine.withgoogle.com/models/xxxx/" />
+                <button id="btnLoadModel" onclick="loadModel()">🚀 Iniciar</button>
+            </div>
+            <div id="modelStatus" class="status waiting">Esperando modelo...</div>
+        </div>
+
+        <div class="grid-2-col">
+            <!-- SECCIÓN DE VISIÓN -->
+            <div class="card">
+                <h2>📷 Visión Artificial</h2>
+                <div id="camera-container">
+                    <span id="camera-placeholder" style="color: #999;">La cámara aparecerá aquí</span>
+                </div>
+                <div class="prediction-box">
+                    <div style="font-size: 1.1rem; color: #555;">Predicción Actual:</div>
+                    <div id="pred-class" class="prediction-class">-</div>
+                    <div id="pred-prob" class="prediction-prob">0.0%</div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN DE BLUETOOTH -->
+            <div class="card">
+                <h2>📡 Conexión Micro:bit (Web Bluetooth)</h2>
+                <p style="margin-bottom: 20px; color: #555;">Envía las predicciones en tiempo real a tu tarjeta Micro:bit vía UART.</p>
+                
+                <div id="bluetoothStatus" class="status disconnected">🔴 Micro:bit Desconectado</div>
+                <button id="btnConnect" onclick="connectBluetooth()" style="width: 100%;">🔗 Emparejar Micro:bit</button>
+                <button id="btnDisconnect" onclick="disconnectBluetooth()" style="width: 100%; margin-top: 10px; background: #b71c1c; display: none;">Desconectar</button>
+
+                <div style="margin-top: 25px; font-size: 0.9rem; color: #666; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <strong>Nota:</strong> Tu Micro:bit debe tener habilitado el servicio Bluetooth UART en MakeCode y estar emparejado con este dispositivo.
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE ARQUITECTURA -->
+        <div class="card">
+            <h2>🚀 Arquitectura del Sistema</h2>
+            <div class="architecture-grid">
+                <div class="arch-item">
+                    <div class="arch-icon">🧠</div>
+                    <strong>Modelo IA</strong><br>Teachable Machine
+                </div>
+                <div class="arch-item">
+                    <div class="arch-icon">👁️</div>
+                    <strong>Visión</strong><br>TensorFlow.js (Webcam)
+                </div>
+                <div class="arch-item">
+                    <div class="arch-icon">📡</div>
+                    <strong>Puente</strong><br>Web Bluetooth API
+                </div>
+                <div class="arch-item">
+                    <div class="arch-icon">⚙️</div>
+                    <strong>Hardware</strong><br>Micro:bit / Motores
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <strong>MakerLab - Universidad Cenfotec</strong><br>
+        AI + IoT + Educación
+    </footer>
+
+    <script>
+        // Variables globales IA
+        let model, webcam, maxPredictions;
+        let isLooping = false;
+        
+        // Variables globales Bluetooth
+        let bleDevice = null;
+        let bleServer = null;
+        let txCharacteristic = null;
+        
+        // UUIDs estándar de Nordic UART (Usados por Micro:bit)
+        const UART_SERVICE_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
+        const UART_TX_UUID      = "6e400002-b5a3-f393-e0a9-e50e24dcca9e"; // Para enviar datos de la Web al Micro:bit
+        
+        // Control de envío para no saturar el Bluetooth
+        let lastSentClass = "";
+        let lastSendTime = 0;
+
+        // ==========================================
+        // 1. CARGA DE MODELO Y CÁMARA
+        // ==========================================
+        async function loadModel() {
+            let url = document.getElementById("modelURL").value.trim();
+            const statusEl = document.getElementById("modelStatus");
+            const btn = document.getElementById("btnLoadModel");
+
+            if (!url) {
+                alert("Por favor, ingresa la URL de tu modelo de Teachable Machine.");
+                return;
+            }
+
+            if (!url.endsWith("/")) url += "/";
+
+            try {
+                btn.disabled = true;
+                btn.innerText = "⏳ Cargando...";
+                statusEl.className = "status waiting";
+                statusEl.innerText = "Descargando modelo de Google...";
+
+                const modelURL = url + "model.json";
+                const metadataURL = url + "metadata.json";
+
+                model = await tmImage.load(modelURL, metadataURL);
+                maxPredictions = model.getTotalClasses();
+
+                statusEl.className = "status connected";
+                statusEl.innerText = "🟢 Modelo cargado correctamente";
+
+                await startCamera();
+            } catch (error) {
+                console.error(error);
+                statusEl.className = "status disconnected";
+                statusEl.innerText = "🔴 Error al cargar el modelo. Revisa la URL.";
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "🚀 Iniciar";
+            }
+        }
+
+        async function startCamera() {
+            const cameraContainer = document.getElementById("camera-container");
+            
+            // Limpiar canvas anterior si existe
+            if (webcam) {
+                webcam.stop();
+                cameraContainer.innerHTML = ""; 
+            } else {
+                cameraContainer.innerHTML = "";
+            }
+
+            const flip = true; 
+            webcam = new tmImage.Webcam(300, 300, flip);
+            
+            try {
+                await webcam.setup(); 
+                await webcam.play();
+                
+                cameraContainer.appendChild(webcam.canvas);
+                
+                if (!isLooping) {
+                    isLooping = true;
+                    window.requestAnimationFrame(loop);
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Error al acceder a la cámara. Asegúrate de dar los permisos necesarios.");
+            }
+        }
+
+        async function loop() {
+            if (!isLooping) return;
+            webcam.update(); 
+            await predict();
+            window.requestAnimationFrame(loop);
+        }
+
+        async function predict() {
+            const prediction = await model.predict(webcam.canvas);
+            
+            // Encontrar la clase con mayor probabilidad
+            let highest = prediction[0];
+            for (let i = 1; i < prediction.length; i++) {
+                if (prediction[i].probability > highest.probability) {
+                    highest = prediction[i];
+                }
+            }
+
+            // Actualizar interfaz
+            document.getElementById("pred-class").innerText = highest.className;
+            document.getElementById("pred-prob").innerText = (highest.probability * 100).toFixed(1) + "%";
+
+            // Enviar dato por Bluetooth si está conectado, la probabilidad es alta (>85%), y es una clase nueva (o pasaron 2 segundos)
+            const now = Date.now();
+            if (txCharacteristic && highest.probability > 0.85) {
+                if (highest.className !== lastSentClass || (now - lastSendTime) > 2000) {
+                    sendDataToMicrobit(highest.className);
+                    lastSentClass = highest.className;
+                    lastSendTime = now;
+                }
+            }
+        }
+
+        // ==========================================
+        // 2. WEB BLUETOOTH (UART MICRO:BIT)
+        // ==========================================
+        async function connectBluetooth() {
+            const statusBle = document.getElementById("bluetoothStatus");
+            
+            if (!navigator.bluetooth) {
+                alert("Tu navegador no soporta Web Bluetooth. Usa Chrome o Edge en PC/Android.");
+                return;
+            }
+
+            try {
+                statusBle.className = "status waiting";
+                statusBle.innerText = "🟡 Buscando dispositivos...";
+
+                // Solicitar dispositivo filtrando por el servicio UART
+                bleDevice = await navigator.bluetooth.requestDevice({
+                    filters: [{ services: [UART_SERVICE_UUID] }]
+                });
+
+                // Detectar si el usuario apaga el micro:bit
+                bleDevice.addEventListener('gattserverdisconnected', onDisconnected);
+
+                statusBle.innerText = "🟡 Conectando al dispositivo...";
+                bleServer = await bleDevice.gatt.connect();
+
+                statusBle.innerText = "🟡 Obteniendo servicios UART...";
+                const service = await bleServer.getPrimaryService(UART_SERVICE_UUID);
+
+                statusBle.innerText = "🟡 Configurando canales de datos...";
+                txCharacteristic = await service.getCharacteristic(UART_TX_UUID);
+
+                // Éxito
+                statusBle.className = "status connected";
+                statusBle.innerText = `🟢 Conectado a: ${bleDevice.name || "Micro:bit"}`;
+                
+                document.getElementById("btnConnect").style.display = "none";
+                document.getElementById("btnDisconnect").style.display = "block";
+
+            } catch (error) {
+                console.error(error);
+                statusBle.className = "status disconnected";
+                statusBle.innerText = "🔴 Conexión cancelada o fallida";
+            }
+        }
+
+        async function sendDataToMicrobit(text) {
+            if (!txCharacteristic) return;
+            try {
+                // Convertir el texto a bytes para enviarlo (Añadimos un salto de línea al final, útil para Micro:bit)
+                const encoder = new TextEncoder();
+                const data = encoder.encode(text + "\n");
+                await txCharacteristic.writeValue(data);
+                console.log("Enviado al Micro:bit:", text);
+            } catch (error) {
+                console.error("Error al enviar dato por Bluetooth:", error);
+            }
+        }
+
+        function disconnectBluetooth() {
+            if (!bleDevice) return;
+            if (bleDevice.gatt.connected) {
+                bleDevice.gatt.disconnect();
+            }
+        }
+
+        function onDisconnected() {
+            const statusBle = document.getElementById("bluetoothStatus");
+            statusBle.className = "status disconnected";
+            statusBle.innerText = "🔴 Micro:bit Desconectado";
+            
+            document.getElementById("btnConnect").style.display = "block";
+            document.getElementById("btnDisconnect").style.display = "none";
+            
+            bleServer = null;
+            txCharacteristic = null;
+        }
+    </script>
+</body>
+</html>
