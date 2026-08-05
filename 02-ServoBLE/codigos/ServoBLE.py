@@ -16,8 +16,8 @@ ib = IdeaBoard()
 # ---------------- Servo ----------------
 servo = ib.Servo(board.IO4)
 
-REPOSO = 90
-ABIERTO = 0
+REPOSO = 0
+ABIERTO = 90
 
 servo.angle = REPOSO
 
