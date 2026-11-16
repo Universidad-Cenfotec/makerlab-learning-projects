@@ -4,6 +4,8 @@ Repositorio de proyectos de enseñanza del MakerLab Universidad Cenfotec
 > **MakerLab - Universidad Cenfotec**
 > Repositorio oficial de mini proyectos desarrollados en el laboratorio Maker de CENFOTEC.
 
+> Fiorella María Pérez López, Estudiante, Universidad CENFOTEC
+
 ## 🎯 Objetivo
 
 Proveer ejemplos prácticos, replicables y educativos para estudiantes y visitantes del laboratorio. Este espacio está diseñado para demostrar cómo el mundo físico se conecta con el mundo digital, abarcando las siguientes áreas de estudio:
